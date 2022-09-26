@@ -28,4 +28,4 @@ jobs:
         
       - name: Startup Apache JMeter
         working-directory: apache-jmeter-5.5
-        run: java -jar ./bin/ApacheJMeter.jar jmeter -n -t petclinic.jmx -l output.jtl
+        run: ./bin/jmeter -n -t petclinic.jmx -l output.jtl
