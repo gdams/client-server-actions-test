@@ -27,5 +27,4 @@ jobs:
         run: unzip apache-jmeter.zip
         
       - name: Startup Apache JMeter
-        working-directory: apache-jmeter-5.5
-        run: ./bin/jmeter -n -t petclinic.jmx -l output.jtl
+        run: ./apache-jmeter-5.5/bin/jmeter -n -t petclinic.jmx -l output.jtl
