@@ -28,7 +28,7 @@ jobs:
       - name: Start Server
         run: |
           wget https://github.com/gdams/client-server-actions-test/releases/download/petclinic/spring-petclinic-2.3.1.BUILD-SNAPSHOT.jar
-          nohup java -jar spring-petclinic-2.3.1.BUILD-SNAPSHOT.jar
+          java -jar spring-petclinic-2.3.1.BUILD-SNAPSHOT.jar > /dev/null 2>&1 &
 
   client:
     needs: server
