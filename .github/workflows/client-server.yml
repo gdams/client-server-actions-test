@@ -8,11 +8,22 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   server:
+    outputs:
+      server_ip: ${{ steps.server_ip.outputs.test }}
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - id: server_ip
+        run: |
+          IP=($(curl -s http://ipinfo.io/json | jq '.ip' | sed -e 's/^"//' -e 's/"$//'))
+          echo "::set-output name=test::$IP"
+
+  client:
+    needs: server
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ needs.server.outputs.server_ip}}
       - uses: actions/checkout@v3
 
       - uses: actions/setup-java@v3
@@ -28,3 +39,10 @@ jobs:
         
       - name: Startup Apache JMeter
         run: ./apache-jmeter-5.5/bin/jmeter -n -t petclinic.jmx -l output.jtl
+        
+      - uses: actions/upload-artifact@v2
+        with:
+          name: jmeter-output
+          path: output.jtl
+
+      
